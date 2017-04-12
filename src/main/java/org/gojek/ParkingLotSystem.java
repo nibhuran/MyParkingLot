@@ -47,7 +47,7 @@ public class ParkingLotSystem implements IParkingLotSystem {
     }
 
     private void prettyPrintParkingSlots(Map<Integer, Vehicle> allParkingSlots) {
-        System.out.println("Slot No.\tRegistration No\tColour");
+        System.out.println("Slot No.\tRegistration No\t\tColour");
         for (Map.Entry<Integer, Vehicle> eachParkingSlot : allParkingSlots.entrySet()) {
             Vehicle vehicle = eachParkingSlot.getValue();
             if (vehicle != null) {

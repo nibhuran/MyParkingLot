@@ -54,7 +54,7 @@ public class Main {
     }
 
     private void processInput(IParkingLotSystem parkingLotSystem, String[] inputs) {
-        String command = inputs[0];
+        String command = inputs[0].trim();
         if(command.equals("create_parking_lot")){
             //alternate for making ParkingLotSystem singleton
             synchronized(this) {
@@ -65,46 +65,49 @@ public class Main {
                     throw new RuntimeException("Parking Lot already exists");
                 }
             }
-        }
-        switch (command){
-            case "park":
-                parkingLotSystem.park(inputs[1].trim(), inputs[2].trim());
-                break;
+        } else if(parkingLotSystem == null){
+            throw new RuntimeException("Create Parking Lot first");
+        } else {
+            switch (command) {
+                case "park":
+                    parkingLotSystem.park(inputs[1].trim(), inputs[2].trim());
+                    break;
 
-            case "leave":
-                parkingLotSystem.unPark(Integer.parseInt(inputs[1].trim()));
-                break;
+                case "leave":
+                    parkingLotSystem.unPark(Integer.parseInt(inputs[1].trim()));
+                    break;
 
-            case "status":
-                parkingLotSystem.showStatus();
-                break;
+                case "status":
+                    parkingLotSystem.showStatus();
+                    break;
 
-            case "registration_numbers_for_cars_with_colour":
-                Map<Vehicle, Integer> results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withColor(inputs[1].trim()).build());
-                if(results.size() == 0){
-                    System.out.println("Not found");
-                } else {
-                    System.out.println(results.keySet().stream().map(Vehicle::getRegistrationNo).collect(Collectors.joining(", ")));
-                }
-                break;
+                case "registration_numbers_for_cars_with_colour":
+                    Map<Vehicle, Integer> results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withColor(inputs[1].trim()).build());
+                    if (results.size() == 0) {
+                        System.out.println("Not found");
+                    } else {
+                        System.out.println(results.keySet().stream().map(Vehicle::getRegistrationNo).collect(Collectors.joining(", ")));
+                    }
+                    break;
 
-            case "slot_numbers_for_cars_with_colour":
-                results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withColor(inputs[1].trim()).build());
-                if(results.size() == 0){
-                    System.out.println("Not found");
-                } else {
-                    System.out.println(results.values().stream().map(Object::toString).collect(Collectors.joining(", ")));
-                }
-                break;
+                case "slot_numbers_for_cars_with_colour":
+                    results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withColor(inputs[1].trim()).build());
+                    if (results.size() == 0) {
+                        System.out.println("Not found");
+                    } else {
+                        System.out.println(results.values().stream().map(Object::toString).collect(Collectors.joining(", ")));
+                    }
+                    break;
 
-            case "slot_number_for_registration_number":
-                results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withRegistrationNo(inputs[1].trim()).build());
-                if(results.size() == 0){
-                    System.out.println("Not found");
-                } else {
-                    System.out.println(results.values().stream().map(Object::toString).collect(Collectors.joining(", ")));
-                }
-                break;
+                case "slot_number_for_registration_number":
+                    results = parkingLotSystem.search(new VehicleSearchQueryBuilder().withRegistrationNo(inputs[1].trim()).build());
+                    if (results.size() == 0) {
+                        System.out.println("Not found");
+                    } else {
+                        System.out.println(results.values().stream().map(Object::toString).collect(Collectors.joining(", ")));
+                    }
+                    break;
+            }
         }
     }
 }
