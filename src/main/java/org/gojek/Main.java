@@ -22,10 +22,9 @@ public class Main {
      */
     public static void main(String[] args) {
         Main main = new Main();
-        //if(args.length == 1) {
-        if(true) {
+        if(args.length == 1) {
             try {
-                String fileName = "/Users/bhuvneshwar/Google Drive/Others/My Parking Lot/parkingLot/test-input-file.txt";
+                String fileName = args[0];
                 System.out.println(fileName);
                 List<String> lines = Files.readAllLines(Paths.get(fileName));
                 for (String input : lines){
@@ -39,7 +38,7 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        } else if(args.length == 0){
             Scanner scanner = new Scanner(System.in);
             String input = "";
             while(!"exit".equals(input.trim())){
@@ -50,6 +49,8 @@ public class Main {
                     System.out.println(e.getMessage());
                 }
             }
+        } else {
+            throw new RuntimeException("Invalid Arguments");
         }
     }
 
@@ -60,7 +61,6 @@ public class Main {
             synchronized(this) {
                 if (this.parkingLotSystem == null) {
                     this.parkingLotSystem = new ParkingLotSystem(Integer.parseInt(inputs[1].trim()));
-                    return;
                 } else {
                     throw new RuntimeException("Parking Lot already exists");
                 }

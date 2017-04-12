@@ -20,7 +20,7 @@ public class ParkingLotSystem implements IParkingLotSystem {
         if (!parkingSlotCollection.isSlotAvailable()) {
             throw new ParkingFullException(PARKING_FULL_MESSAGE);
         }
-        //to factory
+        // TODO: 12/04/17 factory
         Vehicle vehicleToPark = new Vehicle(color, registrationNo);
         return parkingSlotCollection.parkVehicle(vehicleToPark);
     }
@@ -41,9 +41,7 @@ public class ParkingLotSystem implements IParkingLotSystem {
 
     @Override
     public Map<Vehicle, Integer> search(VehicleSearchQuery vehicleSearchQuery) {
-        Map<Vehicle, Integer> result;
-        result = parkingSlotCollection.search(vehicleSearchQuery);
-        return result;
+        return parkingSlotCollection.search(vehicleSearchQuery);
     }
 
     private void prettyPrintParkingSlots(Map<Integer, Vehicle> allParkingSlots) {
