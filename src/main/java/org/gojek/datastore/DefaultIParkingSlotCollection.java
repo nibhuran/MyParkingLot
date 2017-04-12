@@ -25,6 +25,7 @@ public class DefaultIParkingSlotCollection implements IParkingSlotCollection {
             parkingSlots.add(new ParkingSlot(i + 1));
         }
         this.slotToVehicle = new HashMap<>(capacity);
+        System.out.println("Created a parking lot with " + capacity + " slots");
     }
 
     public int getCapacity() {

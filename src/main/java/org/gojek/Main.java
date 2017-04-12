@@ -3,7 +3,6 @@ package org.gojek;
 import org.gojek.datastore.VehicleSearchQueryBuilder;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {
+    IParkingLotSystem parkingLotSystem = null;
     /**
      * Usage :
      * park regNo colour
@@ -21,17 +21,17 @@ public class Main {
      * @param args the capacity of the lot
      */
     public static void main(String[] args) {
-        int capacity = 6; //default
-        IParkingLotSystem parkingLotSystem = new ParkingLotSystem(capacity);
-        if(args.length == 1) {
+        Main main = new Main();
+        //if(args.length == 1) {
+        if(true) {
             try {
-                String fileName = args[0];
+                String fileName = "/Users/bhuvneshwar/Google Drive/Others/My Parking Lot/parkingLot/test-input-file.txt";
                 System.out.println(fileName);
-                List<String> lines = Files.readAllLines(Paths.get("/Users/bhuvneshwar/Google Drive/Others/My Parking Lot/parkingLot/test-input-file.txt"), StandardCharsets.UTF_8);
+                List<String> lines = Files.readAllLines(Paths.get(fileName));
                 for (String input : lines){
                     try {
                         if("exit".equals(input.trim())) break;
-                        processInput(parkingLotSystem, input.split(" "));
+                        main.processInput(main.parkingLotSystem, input.split(" "));
                     } catch (Throwable e){
                         System.out.println(e.getMessage());
                     }
@@ -45,7 +45,7 @@ public class Main {
             while(!"exit".equals(input.trim())){
                 try {
                     input = scanner.nextLine();
-                    processInput(parkingLotSystem, input.split(" "));
+                    main.processInput(main.parkingLotSystem, input.split(" "));
                 } catch (Throwable e) {
                     System.out.println(e.getMessage());
                 }
@@ -53,8 +53,19 @@ public class Main {
         }
     }
 
-    private static void processInput(IParkingLotSystem parkingLotSystem, String[] inputs) {
+    private void processInput(IParkingLotSystem parkingLotSystem, String[] inputs) {
         String command = inputs[0];
+        if(command.equals("create_parking_lot")){
+            //alternate for making ParkingLotSystem singleton
+            synchronized(this) {
+                if (this.parkingLotSystem == null) {
+                    this.parkingLotSystem = new ParkingLotSystem(Integer.parseInt(inputs[1].trim()));
+                    return;
+                } else {
+                    throw new RuntimeException("Parking Lot already exists");
+                }
+            }
+        }
         switch (command){
             case "park":
                 parkingLotSystem.park(inputs[1].trim(), inputs[2].trim());
