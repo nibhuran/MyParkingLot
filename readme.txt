@@ -1,3 +1,24 @@
+----------------------------------------------------------------------
+-- Build, Run Tests and execute
+----------------------------------------------------------------------
+Unzip parkingLot.zip
+Go inside the folder
+
+1. sh ./parking_lot
+    -- provide input from stdin
+
+2. sh ./parking_lot <input-file>
+    -- reads input from supplied file
+
+
+----------------------------------------------------------------------
+-- Custom Options
+----------------------------------------------------------------------
+Build:
+mvn clean package
+-- it will run the test cases ad create jar file in targer folder
+
+
 Running Instructions :
 
 -- Reads Input from file
